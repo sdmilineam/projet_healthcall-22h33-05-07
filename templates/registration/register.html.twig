@@ -11,6 +11,10 @@
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.Username) }}
+        {{ form_row(registrationForm.Nom) }}
+        {{ form_row(registrationForm.Prenom) }}
+        {{ form_row(registrationForm.Age) }}
+        {{ form_row(registrationForm.Email) }}
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
