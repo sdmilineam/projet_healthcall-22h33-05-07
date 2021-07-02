@@ -9,10 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"Username"}, message="There is already an account with this Username")
+ * @Vich\Uploadable
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -60,14 +62,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $Email;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="profil", orphanRemoval=true)
-     */
-    private $images;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="post", fileNameProperty="image")
+     *
+     * @var null|File
+     */
+    private $imageFile;
 
     public function __construct()
     {
@@ -243,5 +247,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->image = $image;
 
         return $this;
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param null|File|UploadedFile $imageFile
+     */
+    public function setImageFile(?File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new \DateTime();
+        }
     }
 }
