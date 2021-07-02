@@ -16,9 +16,16 @@ header {
             justify-content: space-around;
             align-items: center;
             list-style: none;
+            font-style: none;
                 li{
                     font-size: 1.3em;
                     color: white;
+                    font-style: none;
+                        a{
+                            list-style: none;
+                            color: white;
+                            text-decoration: none;
+                        }
                 }
                 .btn{
                     width: 150px;

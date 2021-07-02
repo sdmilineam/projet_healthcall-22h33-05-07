@@ -1,10 +1,15 @@
 <header>
     <nav>
         <img src="" alt="">
-        <li><a>Acceuil<a></li>
-        <li><a>Profil<a></li>
-        <li><a>Page Pro<a></li>
-        <li><a>Contacte<a></li>
-     <a href="{{path("app_login")}}"><button class="btn">Login/Register</button><a>
+        <li><a href="#">Acceuil<a></li>
+        <li><a href="{{path("app_profil")}}">Profil<a></li>
+        <li><a href="#">Prendre RDV<a></li>
+        <li><a href="#">Contacte<a></li>
+    {% if not app.user %}
+        <a href="{{path("app_login")}}"><button class="btn">Login/Register</button><a>
+    {% else %}
+        <a href="{{path("app_logout")}}"><button class="btn">Logout</button><a>
+    {% endif %}        
+     
     </nav>
 </header>
