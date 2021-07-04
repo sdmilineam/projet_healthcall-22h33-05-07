@@ -17,34 +17,35 @@ class ProfilController extends AbstractController
      * @Route("/profil", name="app_profil")
      */
     public function index(): Response
-    {
+    {   
+        $Profil = $this->getUser();
+        // dd($user);
+        
         return $this->render('profil/index.html.twig', [
-            'controller_name' => 'ProfilController',
+            'User' => $Profil,
         ]);
     }
 
     /**
-     * @Route("/profil/upload", name="app_profil_uploade" ,methods="GET")
+     * @Route("/profil/modifier", name="app_profil_modifier")
      */
     public function User(EntityManagerInterface $em, Security $security, Request $request)
     {
-        $entity = new User();
-        $form = $this->createForm(ImagProfilType::class, $entity);
+        $Profil = $this->getUser();
+        $form = $this->createForm(ImagProfilType::class, $Profil);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $security->getUser();
-            $entity->setAuthor($user);
-
-            $em->persist($entity);
+            $Profil = $security->getUser();
             $em->flush();
 
-            $this->addFlash('success', 'Your __entity__ has been created successfully.');
+            
 
             return $this->redirectToRoute('app_profil');
         }
 
         return $this->render('Form/Upload.html.twig', [
+            'user' => $Profil,
             'form' => $form->createView(),
         ]);
     }

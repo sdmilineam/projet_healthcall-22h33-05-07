@@ -4,16 +4,32 @@
 
 {% block body %}
     <section id="profil">
-        <div>
-            <img src="" alt="">
-            <a href=""><button>Uploade</button></a>
-        </div>
-        <div>
-            <h1>Nom : {{app.user.Nom}}</h1>
-            <h2> Prenom : {{app.user.Prenom}}</h2>
-            <p>Votre Age: {{app.user.age}}</p>
-            <p>Votre Mail: {{app.user.email}}</p>
-            
+        <div class="bloc-profil">
+            <div class="image-perso">
+                <div class="blog-pserso">        
+                    <img src="" alt="">
+                </div>       
+                    <a href=""><button class="btn-2">Uploade</button></a>
+            </div>
+            <div class="datauser">
+                <div class="datauser2">
+                    {# <div class="tre"></div> #}
+                    <p>Nom : {{app.user.Nom}}</p>
+                    <div class="tre"></div>
+                    <P>Prenom : {{app.user.Prenom}}</p>
+                    <div class="tre"></div>
+                    <p>Age : {{app.user.age}}</p>
+                    <div class="tre"></div>
+                    <p>Mail : {{app.user.email}}</p>
+                    <div class="tre"></div>
+                    <p>Telephone : <p>
+                    <div class="bloc-btn">
+                        <a href="" target="__blank" href="{{ path('app_profil_modifier')}}"><button class="btn-2">Modifier</button></a>
+                    </div>
+                </div>    
+                 
+            </div>
+           
         </div>
     </section>
 {% endblock %}
