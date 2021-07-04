@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Hello UpdateProfilController!{% endblock %}
+
 {% block body %}
-      <div>
+    <div>
         {{ form_start(form)}}
          {{ form_widget(form) }}
          <button type="submit">Upload</button>
         {{ form_end (form) }}
       </div>  
-
 {% endblock %}
