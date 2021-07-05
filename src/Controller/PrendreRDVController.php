@@ -6,17 +6,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProfilController extends AbstractController
+class PrendreRDVController extends AbstractController
 {
     /**
-     * @Route("/profil", name="app_profil")
+     * @Route("/prendre/r/d/v", name="prendre_r_d_v")
      */
     public function index(): Response
     {
-        $Profil = $this->getUser();
-
-        return $this->render('profil/index.html.twig', [
-            'User' => $Profil,
+        return $this->render('prendre_rdv/index.html.twig', [
+            'controller_name' => 'PrendreRDVController',
         ]);
     }
 }

@@ -5,18 +5,18 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UpdateProfilType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Security;
 
 class UpdateProfilController extends AbstractController
 {
     /**
-     * @Route("/update/profil", name="update_profil",)
+     * @Route("/profil/update", name="app_update_profil",)
      */
-    public function User(EntityManagerInterface $em, Security $security, Request $request):Response
+    public function User(EntityManagerInterface $em, Security $security, Request $request): Response
     {
         $Profil = $this->getUser();
         $form = $this->createForm(UpdateProfilType::class, $Profil);
@@ -26,8 +26,6 @@ class UpdateProfilController extends AbstractController
             $Profil = $security->getUser();
             $em->flush();
 
-            
-
             return $this->redirectToRoute('app_profil');
         }
 
@@ -36,5 +34,4 @@ class UpdateProfilController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    
 }

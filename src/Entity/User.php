@@ -73,6 +73,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $imageFile;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $telephone;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adress;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Specialite::class, inversedBy="nom_specialité")
+     */
+    private $Pro;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -264,5 +279,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (null !== $imageFile) {
             $this->updatedAt = new \DateTime();
         }
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(string $adress): self
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    public function getPro(): ?Specialite
+    {
+        return $this->Pro;
+    }
+
+    public function setPro(?Specialite $Pro): self
+    {
+        $this->Pro = $Pro;
+
+        return $this;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Update;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,15 +12,20 @@ class UpdateProfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('Username')
+            ->add('Nom')
+            ->add('Prenom')
+            ->add('Age')
             ->add('Telephone')
-            ->add('adresse')
+            ->add('Adress')
+
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Update::class,
+            'data_class' => User::class,
         ]);
     }
 }
