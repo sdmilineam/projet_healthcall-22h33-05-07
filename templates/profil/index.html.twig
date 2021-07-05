@@ -31,8 +31,9 @@
                     <p>Adresse : {{app.user.Adress}} <p>
                     <div class="bloc-btn">
                         <a target="__blank" href="{{ path('app_update_profil')}}"><button class="btn-2">Modifier</button></a>
+                    {% if is_granted('ROLE_ADMIN') %}
                         <a target="__blank" href="{{ path('app_admin')}}"><button class="btn-2">Admin</button></a>
-                       
+                    {% endif %}   
                     </div>
                 </div>    
                  
