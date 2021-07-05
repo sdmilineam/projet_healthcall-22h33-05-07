@@ -3,7 +3,7 @@
         <img src="" alt="">
         <li><a href="#">Acceuil<a></li>
         <li><a href="{{path("app_profil")}}">Profil<a></li>
-        <li><a href="#">Prendre RDV<a></li>
+        <li><a href="{{path("app_PrendreRDV")}}">Prendre RDV<a></li>
         <li><a href="#">Contacte<a></li>
     {% if not app.user %}
         <a href="{{path("app_login")}}"><button class="btn">Login/Register</button><a>

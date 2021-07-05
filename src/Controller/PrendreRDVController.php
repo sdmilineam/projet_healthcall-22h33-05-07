@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PrendreRDVController extends AbstractController
 {
     /**
-     * @Route("/prendre/r/d/v", name="prendre_r_d_v")
+     * @Route("/Rdv", name="app_PrendreRDV")
      */
     public function index(): Response
     {
