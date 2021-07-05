@@ -61,17 +61,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $Email;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $image;
-
-    /**
-     * @Vich\UploadableField(mapping="post", fileNameProperty="image")
-     *
-     * @var null|File
-     */
-    private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255,nullable=true)
@@ -88,9 +77,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $Pro;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ImageProfil::class, mappedBy="user", orphanRemoval=true)
+     * @Vich\UploadableField(mapping="media", fileNameProperty="media")
+     * 
+     * @var File|null
+     */
+    private $imageProfils;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->imageProfils = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,65 +220,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Image[]
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(Image $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setProfil($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Image $image): self
-    {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getProfil() === $this) {
-                $image->setProfil(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param null|File|UploadedFile $imageFile
-     */
-    public function setImageFile(?File $imageFile = null)
-    {
-        $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            $this->updatedAt = new \DateTime();
-        }
-    }
-
+    
     public function getTelephone(): ?string
     {
         return $this->telephone;
@@ -316,4 +256,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    
 }
