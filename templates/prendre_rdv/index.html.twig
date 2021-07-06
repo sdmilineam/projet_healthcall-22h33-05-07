@@ -11,24 +11,27 @@
     <section id="post2">
         <div class="bloc-rdv">
             <div class="img_profil">
-                <img src="" alt="">
+                <img id ="photo_profil" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="{{ app.user.image }}">
             </div>
             <div class="nom_profil">
                     <div>
-                        <h2>Doctor  - </h2>
+                        <h2>Doctor -{{user.Nom}} {{ app.user.Prenom}} </h2>
                          <div class="tre"></div>
-                        <p>Specialise : <p>
+                        <p>Specialise :  <p>
                          <div class="tre"></div>
-                        <p>Contacte : <p>
+                        <p>Contacte :{{ user.Email}}<p>
+                         <div class="tre"></div>
+                        <p>Contacte :{{ user.Adresse}}<p>
                          <div class="tre"></div>
                     </div>
                  
             </div>
             <div class="btn-rdv">
                    <div class="btn-1">
-                        <button >PrendreRDV</button>
+                        <a href=""><button >PrendreRDV</button></a>
                     </div>
             </div>
         </div>
     </section>
+
 {% endblock %}

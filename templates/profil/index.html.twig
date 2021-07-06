@@ -6,11 +6,12 @@
     <section id="profil">
         <div class="bloc-profil">
             <div class="image-perso">
-                <div class="blog-pserso">        
-                    <img src="" alt="">
-                </div>       
+                <div class="blog-pserso">
+                    <img id ="photo_profil" src="{{ asset('images/uploads/' ~ app.user.image) | imagine_filter('my_thumb')}}" alt="{{ app.user.image }}">
+                </div>    
                     <a href=""><button class="btn-2">Uploade</button></a>
             </div>
+
             <div class="datauser">
                 <div class="datauser2">
                     <p>Nom : {{app.user.Nom}}</p>

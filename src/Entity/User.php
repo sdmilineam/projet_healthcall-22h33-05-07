@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -15,6 +16,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"Username"}, message="There is already an account with this Username")
  * @Vich\Uploadable
+ * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -61,34 +63,73 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $Email;
 
-
-    /**
-     * @ORM\Column(type="string", length=255,nullable=true)
-     */
+    // @ORM\Column(type="string", length=255, nullable=true)
     private $telephone;
 
-    /**
-     * @ORM\Column(type="string", length=255,nullable=true)
-     */
+    // @ORM\Column(type="string", length=255,  nullable=true )
     private $adress;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Specialite::class, inversedBy="nom_specialité")
+     * @ORM\ManyToOne(targetEntity=Specialite::class, inversedBy="nom_specialité" ,)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $Pro;
 
     /**
-     * @ORM\OneToMany(targetEntity=ImageProfil::class, mappedBy="user", orphanRemoval=true)
-     * @Vich\UploadableField(mapping="media", fileNameProperty="media")
-     * 
-     * @var File|null
+     * @Vich\UploadableField(mapping="image", fileNameProperty="image")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="users" )
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var File
      */
-    private $imageProfils;
+    private $ImageFile;
+
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="ImageFile")
+     */
+    private $users;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $Image;
 
     public function __construct()
     {
-        $this->images = new ArrayCollection();
-        $this->imageProfils = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->Nom,
+            $this->Prenom,
+            $this->username,
+            $this->Image,
+            $this->Age,
+            $this->telephone,
+            $this->adress,
+            $this->Pro,
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->Nom,
+            $this->Prenom,
+            $this->username,
+            $this->Age,
+            $this->telephone,
+            $this->adress,
+            $this->Pro,
+            $this->Image) = unserialize($serialized);
     }
 
     public function getId(): ?int
@@ -220,7 +261,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    
     public function getTelephone(): ?string
     {
         return $this->telephone;
@@ -257,5 +297,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    
+    public function getImageFile(): ?self
+    {
+        return $this->ImageFile;
+    }
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        if ($image) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(self $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setImageFile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(self $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getImageFile() === $this) {
+                $user->setImageFile(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->Image;
+    }
+
+    public function setImage(?string $Image): self
+    {
+        $this->Image = $Image;
+
+        return $this;
+    }
 }

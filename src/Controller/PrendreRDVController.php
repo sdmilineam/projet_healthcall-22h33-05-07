@@ -2,16 +2,14 @@
 
 namespace App\Controller;
 
-
 use App\Entity\ImageProfil;
 use App\Form\CreatPostRDVType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\User\User;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class PrendreRDVController extends AbstractController
 {
@@ -41,7 +39,7 @@ class PrendreRDVController extends AbstractController
             return $this->redirectToRoute('app_PrendreRDV');
         }
 
-        return $this->render('prendre_rdv/index.html.twig', [
+        return $this->render('prendre_rdv/CreatRDV.html.twig', [
             'user' => $RDV,
             'form' => $form->createView(),
         ]);
