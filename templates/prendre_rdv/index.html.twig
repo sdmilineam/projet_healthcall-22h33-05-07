@@ -9,19 +9,25 @@
         </div>
     </section>
     <section id="post2">
+
+     {% for user in users %}
+
         <div class="bloc-rdv">
             <div class="img_profil">
-                <img id ="photo_profil" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="{{ app.user.image }}">
+                {# <img id ="photo_profil" src="{{ asset('images/uploads/' ~ app.user.image) | imagine_filter('my_thumb')}}" alt="{{ app.user.image }}"> #}
             </div>
+           
+                
+            
             <div class="nom_profil">
                     <div>
-                        <h2>Doctor -{{user.Nom}} {{ app.user.Prenom}} </h2>
+                        <h2>Doctor - {{app.user.Nom}} {{app.user.Prenom}} </h2>
                          <div class="tre"></div>
                         <p>Specialise :  <p>
                          <div class="tre"></div>
-                        <p>Contacte :{{ user.Email}}<p>
+                        <p>Contacte :{{ app.user.Email}}<p>
                          <div class="tre"></div>
-                        <p>Contacte :{{ user.Adresse}}<p>
+                        <p>Contacte :{{ app.user.adresse}}<p>
                          <div class="tre"></div>
                     </div>
                  
@@ -33,5 +39,5 @@
             </div>
         </div>
     </section>
-
+    {% endfor %}    
 {% endblock %}

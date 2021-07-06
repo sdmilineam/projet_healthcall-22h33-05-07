@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\ImageProfil;
 use App\Form\CreatPostRDVType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\User;
 
 class PrendreRDVController extends AbstractController
 {
@@ -26,21 +26,25 @@ class PrendreRDVController extends AbstractController
     /**
      * @Route("/CreatRDV", name="app_CreatRDV")
      */
-    public function ImageProfil(EntityManagerInterface $em, Security $security, Request $request): Response
+    public function User(EntityManagerInterface $em, Security $security, Request $request): Response
     {
-        $RDV = $this->getUser();
-        $form = $this->createForm(CreatPostRDVType::class, $RDV);
+        $user = new User();
+        $form = $this->createForm(CreatPostRDVType::class, $user);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $RDV = $security->getUser();
-            $em->flush();
 
-            return $this->redirectToRoute('app_PrendreRDV');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->security->getUser();
+            $post->setAuthor($user);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('post_index');
         }
 
         return $this->render('prendre_rdv/CreatRDV.html.twig', [
-            'user' => $RDV,
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }

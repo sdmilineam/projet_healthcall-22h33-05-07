@@ -18,7 +18,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -63,36 +63,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $Email;
 
-    // @ORM\Column(type="string", length=255, nullable=true)
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $telephone;
 
-    // @ORM\Column(type="string", length=255,  nullable=true )
-    private $adress;
-
     /**
-     * @ORM\ManyToOne(targetEntity=Specialite::class, inversedBy="nom_specialité" ,)
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $Pro;
+    private $adresse;
+    // /**
+    //  * @ORM\ManyToOne(targetEntity=Specialite::class, inversedBy="nom_specialité" ,)
+    //  * @ORM\Column(type="string", length=255, nullable=true)
+    //  */
+    // private $Pro;
 
-    /**
-     * @Vich\UploadableField(mapping="image", fileNameProperty="image")
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="users" )
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @var File
-     */
-    private $ImageFile;
+    // /**
+    //  * @Vich\UploadableField(mapping="image", fileNameProperty="image")
+    //  * @ORM\ManyToOne(targetEntity=User::class, inversedBy="users" )
+    //  * @ORM\Column(type="string", length=255, nullable=true)
+    //  *
+    //  * @var null|File
+    //  */
+    // private $ImageFile;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="ImageFile")
      */
     private $users;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $Image;
+    // /**
+    //  * @ORM\Column(type="string", length=255, nullable=true)
+    //  */
+    // private $Image;
 
     public function __construct()
     {
@@ -103,16 +106,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return serialize([
             $this->id,
-            $this->email,
+            $this->Email,
             $this->password,
             $this->Nom,
             $this->Prenom,
-            $this->username,
-            $this->Image,
+            $this->Username,
             $this->Age,
             $this->telephone,
-            $this->adress,
-            $this->Pro,
+            $this->adresse,
         ]);
     }
 
@@ -120,16 +121,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         list(
             $this->id,
-            $this->email,
+            $this->Email,
             $this->password,
             $this->Nom,
             $this->Prenom,
-            $this->username,
+            $this->Username,
             $this->Age,
             $this->telephone,
-            $this->adress,
-            $this->Pro,
-            $this->Image) = unserialize($serialized);
+            $this->adresse) = unserialize($serialized);
     }
 
     public function getId(): ?int
@@ -261,55 +260,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getTelephone(): ?string
-    {
-        return $this->telephone;
-    }
+    // public function getPro(): ?Specialite
+    // {
+    //     return $this->Pro;
+    // }
 
-    public function setTelephone(string $telephone): self
-    {
-        $this->telephone = $telephone;
+    // public function setPro(?Specialite $Pro): self
+    // {
+    //     $this->Pro = $Pro;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getAdress(): ?string
-    {
-        return $this->adress;
-    }
+    // public function getImageFile(): ?self
+    // {
+    //     return $this->ImageFile;
+    // }
 
-    public function setAdress(string $adress): self
-    {
-        $this->adress = $adress;
+    // public function setImageFile(File $image = null)
+    // {
+    //     $this->imageFile = $image;
 
-        return $this;
-    }
-
-    public function getPro(): ?Specialite
-    {
-        return $this->Pro;
-    }
-
-    public function setPro(?Specialite $Pro): self
-    {
-        $this->Pro = $Pro;
-
-        return $this;
-    }
-
-    public function getImageFile(): ?self
-    {
-        return $this->ImageFile;
-    }
-
-    public function setImageFile(File $image = null)
-    {
-        $this->imageFile = $image;
-
-        if ($image) {
-            $this->updatedAt = new \DateTime('now');
-        }
-    }
+    //     if ($image) {
+    //         $this->updatedAt = new \DateTime('now');
+    //     }
+    // }
 
     /**
      * @return Collection|self[]
@@ -341,14 +316,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getImage(): ?string
+    // public function getImage(): ?string
+    // {
+    //     return $this->Image;
+    // }
+
+    // public function setImage(?string $Image): self
+    // {
+    //     $this->Image = $Image;
+
+    //     return $this;
+    // }
+
+    /**
+     * Get the value of telephone.
+     */
+    public function getTelephone()
     {
-        return $this->Image;
+        return $this->telephone;
     }
 
-    public function setImage(?string $Image): self
+    /**
+     * Set the value of telephone.
+     *
+     * @param mixed $telephone
+     *
+     * @return self
+     */
+    public function setTelephone($telephone)
     {
-        $this->Image = $Image;
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of adresse.
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * Set the value of adresse.
+     *
+     * @param mixed $adresse
+     *
+     * @return self
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

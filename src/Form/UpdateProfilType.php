@@ -17,17 +17,17 @@ class UpdateProfilType extends AbstractType
             ->add('Prenom')
             ->add('Age')
             ->add('Telephone')
-            ->add('Adress')
-            ->add('ImageFile', VichFileType::class, [
-                'required' => false,
-                'allow_delete' => true,
-                'delete_label' => 'Remove Photo',
-                'download_uri' => true,
-                'download_label' => 'Download Photo',
-                'asset_helper' => true,
-                'data_class' => null,
-                'empty_data' => '',
-            ])
+            ->add('Adresse')
+            // ->add('ImageFile', VichFileType::class, [
+            //     'required' => false,
+            //     'allow_delete' => true,
+            //     'delete_label' => 'Remove Photo',
+            //     'download_uri' => true,
+            //     'download_label' => 'Download Photo',
+            //     'asset_helper' => true,
+            //     'data_class' => null,
+            //     'empty_data' => '',
+            // ])
         ;
     }
 

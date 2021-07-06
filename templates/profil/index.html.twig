@@ -7,7 +7,7 @@
         <div class="bloc-profil">
             <div class="image-perso">
                 <div class="blog-pserso">
-                    <img id ="photo_profil" src="{{ asset('images/uploads/' ~ app.user.image) | imagine_filter('my_thumb')}}" alt="{{ app.user.image }}">
+                    {# <img id ="photo_profil" src="{{ asset('images/uploads/' ~ user.image) | imagine_filter('my_thumb')}}" alt="{{ user.image }}"> #}
                 </div>    
                     <a href=""><button class="btn-2">Uploade</button></a>
             </div>
@@ -19,7 +19,7 @@
                     <P>Prenom : {{app.user.Prenom}}</p>
                     <div class="tre"></div>
                 {# {% if not app.roles.roles_pro %}                 #}
-                    <p>Age : {{app.user.age}}</p>
+                    <p>Age : {{app.user.Age}}</p>
                     <div class="tre"></div>
                  {# {% else %}
                     <p>Specialité : {{app.Specialite.nom_specialité}}</p>
@@ -29,7 +29,7 @@
                     <div class="tre"></div>
                     <p>Telephone : {{app.user.Telephone}} <p>
                      <div class="tre"></div>
-                    <p>Adresse : {{app.user.Adress}} <p>
+                    <p>Adresse : {{app.user.Adresse}} <p>
                     <div class="bloc-btn">
                         <a target="__blank" href="{{ path('app_update_profil')}}"><button class="btn-2">Modifier</button></a>
                     {% if is_granted('ROLE_ADMIN') %}
